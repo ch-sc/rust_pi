@@ -132,7 +132,7 @@ impl DataLoader {
     /// "10101";"10099";"129.90";"Delivered";"Bank Transfer";"T-shirt";"Standard";"San Francisco"
     /// ```
     pub fn parse_case(&mut self, resource_input: Vec<&str>) {
-        &self.case_holder.case_ids.push(resource_input[0].trim_matches('"').to_owned());
+        &self.case_holder.case_ids.push(resource_input[0].trim_matches('"').to_string());
 
         match resource_input[2].trim_matches('"').parse::<f64>() {
             Err(err) => print!("Could not parse value '{}': {}", resource_input[2], err),

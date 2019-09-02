@@ -13,7 +13,7 @@ use crate::data::data_loader::DataLoader;
 
 pub struct Cache {}
 
-fn hash_file_prefix(case_resource_file_name: &str, event_resource_file_name: &str) -> String {
+fn hash_file_suffix(case_resource_file_name: &str, event_resource_file_name: &str) -> String {
     let mut hasher = DefaultHasher::new();
 //    ptr::hash(case_resource_file_name, &mut hasher);
     Hash::hash_slice(case_resource_file_name.as_bytes(), &mut hasher);
@@ -27,7 +27,7 @@ fn hash_file_prefix(case_resource_file_name: &str, event_resource_file_name: &st
 impl Cache {
     pub fn restore_data(case_resource_file_name: &str, event_resource_file_name: &str) -> Result<DataLoader, String> {
         println!("Trying to restore cached data...");
-        let suffix = hash_file_prefix(case_resource_file_name, event_resource_file_name);
+        let suffix = hash_file_suffix(case_resource_file_name, event_resource_file_name);
         let file_path = format!("./cache/data_{}.bin", suffix);
 
         let start = Instant::now();
@@ -49,7 +49,7 @@ impl Cache {
     }
 
     pub fn store_data(data_loader: &DataLoader, case_resource_file_name: &str, event_resource_file_name: &str) -> Result<(), Box<ErrorKind>> {
-        let suffix = hash_file_prefix(case_resource_file_name, event_resource_file_name);
+        let suffix = hash_file_suffix(case_resource_file_name, event_resource_file_name);
         let file_path = format!("./cache/data_{}.bin", suffix);
         let data = File::create(file_path)
             .expect("Unable to create file");
